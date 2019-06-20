@@ -17,10 +17,13 @@ export const Container = styled(LinearGradient).attrs({
   flex: 1;
   padding-top: ${isIphoneX ? getStatusBarHeight() + 25 : 25};
   padding-bottom: ${isIphoneX ? getBottomSpace() + 25 : 25};
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
-export const Content = styled.View`
+export const HeaderContainer = styled.View`
   align-items: center;
+  flex: 0.2;
 `;
 
 export const Title = styled.Image.attrs({
@@ -28,8 +31,7 @@ export const Title = styled.Image.attrs({
   resizeMethod: "resize",
   resizeMode: "contain"
 })`
-  width: 100%;
-  min-height: 60px;
+  height: 50%;
 `;
 
 export const Logo = styled.Image.attrs({
@@ -37,7 +39,19 @@ export const Logo = styled.Image.attrs({
   resizeMethod: "resize",
   resizeMode: "contain"
 })`
-  width: 60%;
+  height: 50%;
+`;
+
+export const PokemonContainer = styled.View`
+  flex: 0.4;
+`;
+
+export const Score = styled.Text`
+  padding-top: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  color: yellow;
+  align-self: center;
 `;
 
 export const Pokemon = styled.Image.attrs({
@@ -45,44 +59,28 @@ export const Pokemon = styled.Image.attrs({
   resizeMode: "contain"
 })`
   width: 100%;
-  height: 300px;
+  height: 100%;
   ${props => !props.showPokemon && { "tint-color": "#222" }};
 `;
 
 export const Footer = styled.View`
   align-items: center;
   justify-content: space-around;
-  flex: 1;
-`;
-
-export const Input = styled.TextInput.attrs({
-  placeholder: "Nome do Pokémon",
-  autoCorrect: false
-})`
-  font-size: 20px;
-  padding: 20px;
-  border-radius: 15px;
-  width: 80%;
-  background-color: white;
-`;
-
-export const ButtonContainer = styled.View`
-  margin: 20px 0px;
-  width: 100%;
-  align-items: center;
+  margin: 20px;
+  flex: 0.4;
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: white;
-  width: 80%;
+  background-color: ${props => (props.correct ? "green" : "white")};
+  width: 100%;
   align-items: center;
-  padding: 15px 20px;
+  padding: 10px 20px;
   margin: 5px 0px 0px 0px;
   border-radius: 15px;
 `;
 
 export const ButtonText = styled.Text`
-  font-size: 20px;
-  color: red;
+  font-size: 18px;
+  color: ${props => (props.correct ? "white" : "red")};
   font-weight: bold;
 `;
