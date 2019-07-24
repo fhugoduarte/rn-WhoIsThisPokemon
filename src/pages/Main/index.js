@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Text, Alert } from 'react-native'
 import { shuffle, map } from "lodash";
 
 import {
@@ -21,6 +22,7 @@ export default function main() {
   const [answer, setAnswer] = useState(null);
   const [sortedPokemons, setSortedPokemons] = useState([]);
   const [score, setScore] = useState(0);
+  const [recorde, setRecorde] = useState(0);
 
   async function sortPokemons(idSorted) {
     let pokeIds = [idSorted];
@@ -64,7 +66,13 @@ export default function main() {
   function validateAnswer(pokeSelected) {
     setAnswer(pokeSelected);
     if (pokeSelected === pokemon.id) setScore(score + 10);
-    else setScore(0);
+    else {
+      if (score > recorde) {
+        setRecorde(score)
+        Alert.alert('Parabéns!', 'Temos um novo recorde!')
+      }
+      setScore(0)
+    };
     setTimeout(() => getPokemon(), 2000);
   }
 
@@ -80,6 +88,14 @@ export default function main() {
       </HeaderContainer>
       <PokemonContainer>
         <Score>Pontos: {score}</Score>
+        <Text style={{
+          fontWeight: 'bold',
+          fontSize: 20,
+          color: 'yellow',
+          alignSelf: 'center',
+        }
+
+        }>Recorde: {recorde}</Text>
         {!loading && pokemon && (
           <Pokemon
             showPokemon={!!answer}
