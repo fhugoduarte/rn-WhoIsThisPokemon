@@ -9,16 +9,8 @@ import {
 import PokemonLogo from "../../images/pokemon-logo.png";
 import TitleImage from "../../images/title.png";
 
-export const Container = styled(LinearGradient).attrs({
-  colors: ["#d90026", "#ff9300"],
-  start: { x: 0, y: 0 },
-  end: { x: 1, y: 1 }
-})`
+export const Container = styled.View`
   flex: 1;
-  padding-top: ${isIphoneX ? getStatusBarHeight() + 25 : 25};
-  padding-bottom: ${isIphoneX ? getBottomSpace() + 25 : 25};
-  padding-left: 20px;
-  padding-right: 20px;
 `;
 
 export const HeaderContainer = styled.View`

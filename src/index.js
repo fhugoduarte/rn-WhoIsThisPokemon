@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import { StatusBar } from "react-native";
 
+import { Container } from "./styles/global";
+import Player from "./components/Player";
 import Main from "./pages/Main";
 
 export default function app() {
@@ -11,7 +13,10 @@ export default function app() {
         barStyle="light-content"
         backgroundColor="#d90026"
       />
-      <Main />
+      <Container>
+        <Player />
+        <Main />
+      </Container>
     </Fragment>
   );
 }

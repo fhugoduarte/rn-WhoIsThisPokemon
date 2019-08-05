@@ -7,11 +7,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/audio-toolkit": "2.0.2",
     "lodash": "4.17.11",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-iphone-x-helper": "1.2.1",
     "react-native-linear-gradient": "2.5.4",
+    "react-native-vector-icons": "6.6.0",
     "styled-components": "4.3.1"
   },
   "devDependencies": {
