@@ -6,7 +6,10 @@ import { Container, SoundIcon } from "./styles";
 
 const player = new Player(
   "http://23.237.126.42/soundfiles/gameboy-gbs/pokemon-red/02%20Opening%20%28part%202%29.mp3"
-).play();
+);
+
+player.looping = true;
+player.play();
 
 export default function CustomPlayer() {
   const [active, setActive] = useState(true);
