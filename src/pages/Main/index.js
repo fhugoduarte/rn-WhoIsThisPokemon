@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { shuffle, map } from "lodash";
+import React, {useState, useEffect} from 'react';
+import {shuffle, map} from 'lodash';
 
 import {
   Container,
@@ -11,10 +11,10 @@ import {
   HeaderContainer,
   Footer,
   Button,
-  ButtonText
-} from "./styles";
+  ButtonText,
+} from './styles';
 
-export default function main() {
+export default function Main() {
   const [loading, setLoading] = useState(false);
   const [pokemons, setPokemons] = useState([]);
   const [pokemon, setPokemon] = useState(null);
@@ -27,21 +27,11 @@ export default function main() {
     while (pokeIds.length <= 3) {
       const randomPokeNumber = Math.round(Math.random() * (151 - 1) + 1);
       const exist = pokeIds.includes(randomPokeNumber);
-      if (!exist) pokeIds.push(randomPokeNumber);
+      if (!exist) {
+        pokeIds.push(randomPokeNumber);
+      }
     }
     return shuffle(pokeIds);
-  }
-
-  async function getAllPokemons() {
-    const response = await fetch(
-      "https://pokeapi.co/api/v2/pokemon?limit=151",
-      {
-        method: "GET"
-      }
-    );
-    const responseJSON = await response.json();
-    await setPokemons(responseJSON.results);
-    getPokemon();
   }
 
   async function getPokemon() {
@@ -51,42 +41,63 @@ export default function main() {
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${randomPokeNumber}`,
       {
-        method: "GET"
-      }
+        method: 'GET',
+      },
     );
     const responseJSON = await response.json();
-    const sortedPokemons = await sortPokemons(responseJSON.id);
-    setSortedPokemons(sortedPokemons);
+    const shuffled = await sortPokemons(responseJSON.id);
+
+    setSortedPokemons(shuffled);
     setPokemon(responseJSON);
     setLoading(false);
   }
 
   function validateAnswer(pokeSelected) {
     setAnswer(pokeSelected);
-    if (pokeSelected === pokemon.id) setScore(score + 10);
-    else setScore(0);
+    if (pokeSelected === pokemon.id) {
+      setScore(score + 10);
+    } else {
+      setScore(0);
+    }
     setTimeout(() => getPokemon(), 2000);
   }
 
   useEffect(() => {
+    async function getAllPokemons() {
+      const response = await fetch(
+        'https://pokeapi.co/api/v2/pokemon?limit=151',
+        {
+          method: 'GET',
+        },
+      );
+      const responseJSON = await response.json();
+      await setPokemons(responseJSON.results);
+      getPokemon();
+    }
+
     getAllPokemons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Container>
       <HeaderContainer>
         <Title />
+
         <Logo />
       </HeaderContainer>
+
       <PokemonContainer>
         <Score>Pontos: {score}</Score>
+
         {!loading && pokemon && (
           <Pokemon
             showPokemon={!!answer}
-            source={{ uri: pokemon.sprites.front_default }}
+            source={{uri: pokemon.sprites.front_default}}
           />
         )}
       </PokemonContainer>
+
       <Footer>
         {map(sortedPokemons, pokemonId => {
           const correct = answer && pokemonId === pokemon.id;
@@ -95,8 +106,7 @@ export default function main() {
               key={pokemonId}
               correct={correct}
               disabled={!!answer && !loading}
-              onPress={() => validateAnswer(pokemonId)}
-            >
+              onPress={() => validateAnswer(pokemonId)}>
               <ButtonText correct={correct}>
                 {pokemons[pokemonId - 1].name.toUpperCase()}
               </ButtonText>
