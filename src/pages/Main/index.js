@@ -101,7 +101,8 @@ function Main() {
 
   useEffect(() => {
     const fullRanking = ranking.length < 10;
-    const lastScore = ranking[ranking.length - 1].score;
+    const lastRecord = ranking[ranking.length - 1];
+    const lastScore = lastRecord ? lastRecord.score : 0;
 
     const isRecord = (fullRanking && score > 0) || score > lastScore;
 
@@ -141,7 +142,7 @@ function Main() {
         )}
       </PokemonContainer>
 
-      <Score>{record ? 'Parabéns isso é um recorde!' : ''}</Score>
+      <Score>{record ? 'Parabéns, isso é um recorde!' : ''}</Score>
 
       <Footer>
         {map(sortedPokemons, pokemonId => {
@@ -162,7 +163,7 @@ function Main() {
 
       <RecordModal isVisible={showModal}>
         <ModalContainer>
-          <ModalTitle>NOVO RECORD!</ModalTitle>
+          <ModalTitle>NOVO RECORDE!</ModalTitle>
 
           <PlayerNameInput
             placeholder="Digite seu nome..."
