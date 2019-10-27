@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {shuffle, map} from 'lodash';
+
+import {addNewRanking} from '../../store/modules/ranking/actions';
 
 import {
   Container,
@@ -12,15 +16,27 @@ import {
   Footer,
   Button,
   ButtonText,
+  RecordModal,
+  ModalContainer,
+  ModalTitle,
+  PlayerNameInput,
+  SubmitButton,
+  SubmitButtonText,
 } from './styles';
 
-export default function Main() {
+function Main() {
+  const dispatch = useDispatch();
+  const ranking = useSelector(store => store.ranking.data);
+
   const [loading, setLoading] = useState(false);
   const [pokemons, setPokemons] = useState([]);
   const [pokemon, setPokemon] = useState(null);
   const [answer, setAnswer] = useState(null);
   const [sortedPokemons, setSortedPokemons] = useState([]);
   const [score, setScore] = useState(0);
+  const [record, setRecord] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   async function sortPokemons(idSorted) {
     let pokeIds = [idSorted];
@@ -57,7 +73,11 @@ export default function Main() {
     if (pokeSelected === pokemon.id) {
       setScore(score + 10);
     } else {
-      setScore(0);
+      if (record) {
+        setShowModal(true);
+      } else {
+        setScore(0);
+      }
     }
     setTimeout(() => getPokemon(), 2000);
   }
@@ -79,6 +99,29 @@ export default function Main() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const fullRanking = ranking.length < 10;
+    const lastScore = ranking[ranking.length - 1].score;
+
+    const isRecord = (fullRanking && score > 0) || score > lastScore;
+
+    if (isRecord && !record) {
+      setRecord(true);
+    }
+  }, [score, ranking, record]);
+
+  function onSubmit() {
+    if (!playerName.length) {
+      return;
+    } else {
+      dispatch(addNewRanking({name: playerName, score}));
+      setRecord(false);
+      setScore(0);
+      setShowModal(false);
+      setPlayerName('');
+    }
+  }
+
   return (
     <Container>
       <HeaderContainer>
@@ -98,6 +141,8 @@ export default function Main() {
         )}
       </PokemonContainer>
 
+      <Score>{record ? 'Parabéns isso é um recorde!' : ''}</Score>
+
       <Footer>
         {map(sortedPokemons, pokemonId => {
           const correct = answer && pokemonId === pokemon.id;
@@ -114,6 +159,34 @@ export default function Main() {
           );
         })}
       </Footer>
+
+      <RecordModal isVisible={showModal}>
+        <ModalContainer>
+          <ModalTitle>NOVO RECORD!</ModalTitle>
+
+          <PlayerNameInput
+            placeholder="Digite seu nome..."
+            maxLength={10}
+            autoCorrect={false}
+            value={playerName}
+            onChangeText={setPlayerName}
+            autoFocus
+            onEndEditing={onSubmit}
+          />
+
+          <SubmitButton onPress={onSubmit}>
+            <SubmitButtonText>ENVIAR</SubmitButtonText>
+          </SubmitButton>
+        </ModalContainer>
+      </RecordModal>
     </Container>
   );
 }
+
+Main.navigationOptions = {
+  tabBarIcon: ({tintColor}) => (
+    <Icon name="md-home" size={30} color={tintColor} />
+  ),
+};
+
+export default Main;

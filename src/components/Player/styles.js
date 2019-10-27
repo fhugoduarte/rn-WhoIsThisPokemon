@@ -2,8 +2,8 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
 
-export const Container = styled.View`
-  width: 100%;
+export const Container = styled.SafeAreaView`
+  margin-right: 20px;
   align-items: flex-end;
 `;
 
