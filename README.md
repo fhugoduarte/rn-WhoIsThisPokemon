@@ -63,7 +63,16 @@ Depois de configurar o ambiente, basta fazer o clone no projeto:
 git clone https://github.com/fhugoduarte/rn-WhoIsThisPokemon.git
 ```
 
-Entre na pasta do projeto e execute o comando 
+Entre na pasta do projeto e execute o comando para instalar as dependências do projeto
+
+```sh
+yarn
+```
+ou
+```sh
+npm install
+```
+Em seguida execute o comando referente a plataforma ao qual deseja executar
 
 Android:
 
