@@ -13,7 +13,7 @@
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/audio-toolkit": "^2.0.2",
     "immer": "^4.0.2",
-    "lodash": "4.17.13",
+    "lodash": "4.17.19",
     "react": "16.9.0",
     "react-native": "0.61.2",
     "react-native-gesture-handler": "^1.4.1",
